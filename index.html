@@ -6,620 +6,85 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="style/styles.css">
-	<script src="node_modules/file-saver/src/FileSaver.js"></script>
+	<link rel="shortcut icon" href="img/title_logo.png">
+	<script src="script/FileSaver.js"></script>
+	<script src="script/scripts.js"></script>
 	<title>Cipher of Caesar</title>
 </head>
 <body>
-<label for="file-upload" class="glow-on-hover" style="text-align: center; margin-top: 25px"><p
-	style="font-family: sans-serif">Open File</p></label>
-<input id="file-upload" type="file" style="display: none"/>
+<!--TODO New branch-->
+<!--TODO 2 lab-->
+<!--TODO New branch-->
+<!--TODO 3 lab-->
+<!--TODO Main branch-->
+<!--TODO Welcome page-->
+<!--TODO Menu top + design-->
+<!--TODO Merge 3 labs-->
+<!--TODO Comments-->
+<!--TODO Tests for breaks-->
+<div class="func">
+	<h1>Causer Cipher Decoder</h1>
 
-<button class="glow-on-hover" type="button" onclick="showHiddenElement()">Input Text</button>
+	<label for="text_for_decrypt">Enter text:</label><br><br>
+	<textarea id="text_for_decrypt" placeholder="Text for decryption..." rows="3" cols="40">def</textarea><br><br>
 
-<p class=.hidden" style="display: none">Test1</p>
-<p class="hidden" style="display: none">Test2</p>
-<button onclick="showHiddenElementTest()">Test Me</button>
+	<!--<input id="encrypted_text" type="text" value="abc"><br><br>-->
+	<label>
+		<input type="radio" name="method" id="know_shift" value="know_shift" checked>
+		I know the shift:
+	</label>
+	<label for="k_shift_decrypt"></label><input id="k_shift_decrypt" type="number" value="3"><br>
+	<label>
+		<input type="radio" name="method" id="brute_force" value="brute_force">
+		Use Brute Force Method:
+	</label>
+	<label for="k_brute"></label><input id="k_brute" type="number" value="3">
 
-<div id="hidden_element" style="display: none">
-	<label for="text-area"></label>
-	<input id="text-area" type="text"/>
-	<button type="button" onclick="getText()">Submit</button>
+	<p>Enter decrypt language:</p>
+	<input type="radio" name="lang_decrypt" id="eng-decrypt" value="eng-decr" checked>
+	<label for="eng-decrypt">English text</label>
+	<input type="radio" name="lang_decrypt" id="ua-decrypt" value="ua-decr">
+	<label for="ua-decrypt">Ukrainian text</label>
+	<br><br>
+	<label for="abc_decrypt">Custom ABC<br><br><input type="text" id="abc_decrypt"></label><br><br>
+
+	<!--<button onclick="bruteForce()">Decrypt Caesar Code</button><br>-->
+
+
+	<button onclick="prepare_date_and_decrypt()">Decrypt Caesar Code</button>
+
+
+	<!--<input type="file" name="input_file"
+		   id="input_file">
+	<br><br>
+
+	<button type="button" onclick="saveStaticDataToFile();">Click to Save</button>-->
+	<!--<p id="output"></p>-->
+
+	<p>Decrypted text:</p>
+	<label for="output_decrypt"></label>
+	<textarea id="output_decrypt" rows="3" cols="50" placeholder="Decrypted text will appear here..."></textarea>
 </div>
+<div class="func">
+	<h1>Causer Encoder</h1>
 
-<button class="glow-on-hover" type="button" onclick="printText(msg_arr)">Print Text</button>
-<!--//TODO Should input text before print-->
-<!--TODO Show/hide button-->
-<div id="print_text">
+	<label for="text_for_crypt">Enter text:</label><br><br>
+	<textarea id="text_for_crypt" placeholder="Text for encryption..." rows="3" cols="40">abc</textarea><br><br>
+	<label for="k_shift_crypt">Enter the shift: </label><input id="k_shift_crypt" type="number" value="3"><br>
+
+	<p>Enter encrypt language:</p>
+	<input type="radio" name="lang" id="eng_encrypt" value="eng" checked>
+	<label for="eng_encrypt">English text</label>
+	<input type="radio" name="lang" id="ua_encrypt" value="ua">
+	<label for="ua_encrypt">Ukrainian text</label><br><br>
+
+	<label for="abc_encrypt">Custom ABC<br><br><input type="text" id="abc_encrypt"></label><br><br>
+
+	<button onclick="prepare_date_and_encrypt()">Encrypt Caesar Code</button>
+
+	<p>Encrypted text:</p>
+	<label for="output_encrypt"></label>
+	<textarea id="output_encrypt" rows="3" cols="50" placeholder="Encrypted text will appear here..."></textarea>
 </div>
-
-<button class="glow-on-hover" type="button">Save Text</button>
-
-<button class="glow-on-hover" type="button">Encode</button>
-<button class="glow-on-hover" type="button">Code</button>
-<button class="glow-on-hover" type="button">Info</button>
-<!-- The Modal -->
-<div id="myModal" class="modal">
-	<!-- Modal content -->
-	<div class="modal-content">
-		<div class="modal-header">
-			<span class="close">&times;</span>
-			<h2>File Was Opened Successful!</h2>
-		</div>
-	</div>
-</div>
-<!--TODO Fully finish the task + make site analog for other works-->
-<!--<label for="encrypted_text">Enter text:</label>
-<input id="encrypted_text" type="text">
-<p>Enter encrypt language:</p>
-<input type="radio" name="lang" id="eng" value="eng" checked>
-<label for="eng">English text</label>
-<input type="radio" name="lang" id="ua" value="ua">
-<label for="ua">Ukrainian text</label>
-<br><br>
-<button onclick="getText()">Submit</button>
-<br><br>
-<input type="file" name="input_file"
-       id="input_file">
-<br>
-<button type="button" onclick="saveStaticDataToFile();">Click to Save</button>
-<pre id="output"></pre>
-<br><br>-->
-<script>
-	//TODO showHiddenElementTest. Not working
-	function showHiddenElementTest() {
-		let e = document.getElementsByClassName('.hidden');
-		if (e[0].style.display === 'block' || e[1].style.display === 'block') {
-			e.style.display = 'none';
-		} else {
-			e.style.display = 'block';
-		}
-	}
-
-	function showHiddenElement() {
-		let e = document.getElementById('hidden_element');
-		if (e.style.display === 'block') {
-			e.style.display = 'none';
-		} else {
-			e.style.display = 'block';
-		}
-	}
-
-	function printText(msg_arr = []) {
-		document.getElementById('text-area').innerHTML = '';
-		document.getElementById('print_text').insertAdjacentHTML('beforeend', '<p>Word: </p>');
-		msg_arr.forEach((item) =>
-			document
-				.getElementById('print_text')
-				.insertAdjacentHTML('beforeend', `<span>${item} </span>`)
-		);
-		document
-			.getElementById('print_text')
-			.insertAdjacentHTML('beforeend', `<br><br>`);
-	}
-
-	// Get the modal
-	let modal = document.getElementById('myModal');
-
-	// Get the button that opens the modal
-	let btn = document.getElementById('file-upload');
-
-	// Get the <span> element that closes the modal
-	let span = document.getElementsByClassName('close')[0];
-
-	// When the user clicks the button, open the modal
-	btn.onchange = function () {
-		modal.style.display = 'block';
-	};
-
-	// When the user clicks on <span> (x), close the modal
-	span.onclick = function () {
-		modal.style.display = 'none';
-	};
-
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function (event) {
-		if (event.target === modal) {
-			modal.style.display = 'none';
-		}
-	};
-
-	function getText() {
-		let text = document.getElementById('text-area').value;
-		let msg_arr = text.split('');
-		msg_arr = msg_arr.map(word => word.toUpperCase());
-		console.log(text);
-		console.log(msg_arr);
-		let mode = 'english';
-		//let mode = document.getElementById('eng');
-		/* if (mode.checked) {
-			 mode = "english";
-		 } else {
-			 mode = "ukrainian";
-		 }*/
-		console.log(mode);
-		msg_arr = crypt(msg_arr, mode);
-		msg_arr = encrypt(msg_arr, mode);
-		console.log(msg_arr);
-		printText(msg_arr);
-		return msg_arr;
-	}
-
-	//TODO if button clicked get info from text are or file
-	let msg_arr;
-
-	//TODO change function (python analog)
-	function translate_text_eng(letter, k) {
-		let num;
-		switch (letter) {
-			case 'A':
-				num = 1 + k;
-				break;
-			case 'B':
-				num = 2 + k;
-				break;
-			case 'C':
-				num = 3 + k;
-				break;
-			case 'D':
-				num = 4 + k;
-				break;
-			case 'E':
-				num = 5 + k;
-				break;
-			case 'F':
-				num = 6 + k;
-				break;
-			case 'G':
-				num = 7 + k;
-				break;
-			case 'H':
-				num = 8 + k;
-				break;
-			case 'I':
-				num = 9 + k;
-				break;
-			case 'J':
-				num = 10 + k;
-				break;
-			case 'K':
-				num = 11 + k;
-				break;
-			case 'L':
-				num = 12 + k;
-				break;
-			case 'M':
-				num = 13 + k;
-				break;
-			case 'N':
-				num = 14 + k;
-				break;
-			case 'O':
-				num = 15 + k;
-				break;
-			case 'P':
-				num = 16 + k;
-				break;
-			case 'Q':
-				num = 17 + k;
-				break;
-			case 'R':
-				num = 18 + k;
-				break;
-			case 'S':
-				num = 19 + k;
-				break;
-			case 'T':
-				num = 20 + k;
-				break;
-			case 'U':
-				num = 21 + k;
-				break;
-			case 'V':
-				num = 22 + k;
-				break;
-			case 'W':
-				num = 23 + k;
-				break;
-			case 'X':
-				num = 24 + k;
-				break;
-			case 'Y':
-				num = 25 + k;
-				break;
-			case 'Z':
-				num = 26 + k;
-				break;
-			default:
-				num = 0;
-		}
-		return num;
-	}
-
-	function translate_text_ua(letter, k) {
-		let num;
-		switch (letter) {
-			case 'А':
-				num = 1 + k;
-				break;
-			case 'Б':
-				num = 2 + k;
-				break;
-			case 'В':
-				num = 3 + k;
-				break;
-			case 'Г':
-				num = 4 + k;
-				break;
-			case 'Ґ':
-				num = 5 + k;
-				break;
-			case 'Д':
-				num = 6 + k;
-				break;
-			case 'Е':
-				num = 7 + k;
-				break;
-			case 'Є':
-				num = 8 + k;
-				break;
-			case 'Ж':
-				num = 9 + k;
-				break;
-			case 'З':
-				num = 10 + k;
-				break;
-			case 'И':
-				num = 11 + k;
-				break;
-			case 'І':
-				num = 12 + k;
-				break;
-			case 'Ї':
-				num = 13 + k;
-				break;
-			case 'Й':
-				num = 14 + k;
-				break;
-			case 'К':
-				num = 15 + k;
-				break;
-			case 'Л':
-				num = 16 + k;
-				break;
-			case 'М':
-				num = 17 + k;
-				break;
-			case 'Н':
-				num = 18 + k;
-				break;
-			case 'О':
-				num = 19 + k;
-				break;
-			case 'П':
-				num = 20 + k;
-				break;
-			case 'Р':
-				num = 21 + k;
-				break;
-			case 'С':
-				num = 22 + k;
-				break;
-			case 'Т':
-				num = 23 + k;
-				break;
-			case 'У':
-				num = 24 + k;
-				break;
-			case 'Ф':
-				num = 25 + k;
-				break;
-			case 'Х':
-				num = 26 + k;
-				break;
-			case 'Ц':
-				num = 27 + k;
-				break;
-			case 'Ч':
-				num = 28 + k;
-				break;
-			case 'Ш':
-				num = 29 + k;
-				break;
-			case 'Щ':
-				num = 30 + k;
-				break;
-			case 'Ь':
-				num = 31 + k;
-				break;
-			case 'Ю':
-				num = 32 + k;
-				break;
-			case 'Я':
-				num = 33 + k;
-				break;
-			default:
-				num = 0;
-		}
-		return num;
-	}
-
-	function translate_text_eng_back(num) {
-		let letter;
-		switch (num) {
-			case 1:
-				letter = 'A';
-				break;
-			case 2:
-				letter = 'B';
-				break;
-			case 3:
-				letter = 'C';
-				break;
-			case 4:
-				letter = 'D';
-				break;
-			case 5:
-				letter = 'E';
-				break;
-			case 6:
-				letter = 'F';
-				break;
-			case 7:
-				letter = 'G';
-				break;
-			case 8:
-				letter = 'H';
-				break;
-			case 9:
-				letter = 'I';
-				break;
-			case 10:
-				letter = 'J';
-				break;
-			case 11:
-				letter = 'K';
-				break;
-			case 12:
-				letter = 'L';
-				break;
-			case 13:
-				letter = 'M';
-				break;
-			case 14:
-				letter = 'N';
-				break;
-			case 15:
-				letter = 'O';
-				break;
-			case 16:
-				letter = 'P';
-				break;
-			case 17:
-				letter = 'Q';
-				break;
-			case 18:
-				letter = 'R';
-				break;
-			case 19:
-				letter = 'S';
-				break;
-			case 20:
-				letter = 'T';
-				break;
-			case 21:
-				letter = 'U';
-				break;
-			case 22:
-				letter = 'V';
-				break;
-			case 23:
-				letter = 'W';
-				break;
-			case 24:
-				letter = 'X';
-				break;
-			case 25:
-				letter = 'Y';
-				break;
-			case 26:
-				letter = 'Z';
-				break;
-			default:
-				letter = '';
-		}
-		return letter;
-	}
-
-	function translate_text_ua_back(num) {
-		let letter;
-		switch (num) {
-			case 1:
-				letter = 'А';
-				break;
-			case 2:
-				letter = 'Б';
-				break;
-			case 3:
-				letter = 'В';
-				break;
-			case 4:
-				letter = 'Г';
-				break;
-			case 5:
-				letter = 'Ґ';
-				break;
-			case 6:
-				letter = 'Д';
-				break;
-			case 7:
-				letter = 'Е';
-				break;
-			case 8:
-				letter = 'Є';
-				break;
-			case 9:
-				letter = 'Ж';
-				break;
-			case 10:
-				letter = 'З';
-				break;
-			case 11:
-				letter = 'И';
-				break;
-			case 12:
-				letter = 'І';
-				break;
-			case 13:
-				letter = 'Ї';
-				break;
-			case 14:
-				letter = 'Й';
-				break;
-			case 15:
-				letter = 'К';
-				break;
-			case 16:
-				letter = 'Л';
-				break;
-			case 17:
-				letter = 'М';
-				break;
-			case 18:
-				letter = 'Н';
-				break;
-			case 19:
-				letter = 'О';
-				break;
-			case 20:
-				letter = 'П';
-				break;
-			case 21:
-				letter = 'Р';
-				break;
-			case 22:
-				letter = 'С';
-				break;
-			case 23:
-				letter = 'Т';
-				break;
-			case 24:
-				letter = 'У';
-				break;
-			case 25:
-				letter = 'Ф';
-				break;
-			case 26:
-				letter = 'Х';
-				break;
-			case 27:
-				letter = 'Ц';
-				break;
-			case 28:
-				letter = 'Ч';
-				break;
-			case 29:
-				letter = 'Ш';
-				break;
-			case 30:
-				letter = 'Щ';
-				break;
-			case 31:
-				letter = 'Ь';
-				break;
-			case 32:
-				letter = 'Ю';
-				break;
-			case 33:
-				letter = 'Я';
-				break;
-			default:
-				letter = '';
-		}
-		return letter;
-	}
-
-	function crypt(msg_arr = [], mode) {
-		let k = 3;
-		let n, x, y;
-		if (mode === 'english') {
-			n = 26;
-			msg_arr.forEach((item, i) => {
-					console.log(msg_arr[i]);
-					x = translate_text_eng(msg_arr[i], k);
-					y = (x + k) % n;
-					console.log('x = %f', x);
-					console.log('y = %f', y);
-					x = translate_text_eng_back(x);
-					msg_arr[i] = x;
-				}
-			);
-			console.log(msg_arr);
-		} else {
-			n = 33;
-			msg_arr.forEach((item, i) => {
-					console.log(msg_arr[i]);
-					x = translate_text_ua(msg_arr[i], k);
-					y = (x + k) % n;
-					console.log('x = %f', x);
-					console.log('y = %f', y);
-					x = translate_text_ua_back(x);
-					msg_arr[i] = x;
-				}
-			);
-			console.log(msg_arr);
-		}
-		return msg_arr;
-	}
-
-	function encrypt(msg_arr = [], mode) {
-		let k = 3;
-		let n, x, y;
-		if (mode === 'english') {
-			n = 26;
-			msg_arr.forEach((item, i) => {
-					console.log(msg_arr[i]);
-					y = translate_text_eng(msg_arr[i], 0);
-					x = (y + n - k % n) % n;
-					console.log('x = %f', x);
-					console.log('y = %f', y);
-					msg_arr[i] = translate_text_eng_back(x);
-				}
-			);
-			console.log(msg_arr);
-		} else {
-			n = 33;
-			msg_arr.forEach((item, i) => {
-					console.log(msg_arr[i]);
-					y = translate_text_ua(msg_arr[i], 0);
-					x = (y + n - k % n) % n;
-					console.log('x = %f', x);
-					console.log('y = %f', y);
-					msg_arr[i] = translate_text_ua_back(x);
-				}
-			);
-			console.log(msg_arr);
-		}
-		return msg_arr;
-	}
-
-	/*function saveStaticDataToFile() {
-		let text = document.getElementById('encrypted_text').value;
-		let blob = new Blob([text],
-			{type: "text/plain;charset=utf-8"});
-		saveAs(blob, "static.txt");
-	}*/
-
-	/*document.getElementById('input_file')
-		.addEventListener('change', function () {
-
-			let fr = new FileReader();
-			fr.onload = function () {
-				document.getElementById('output').textContent = fr.result.toString();
-			}
-
-			fr.readAsText(this.files[0]);
-		})*/
-</script>
-
 </body>
 </html>
