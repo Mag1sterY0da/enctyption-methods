@@ -1,8 +1,8 @@
-function getText(msg_arr) {
+function getText() {
 	let text = document.getElementById('encrypted_text').value;
 	let full_output;
-	msg_arr = text.split('');
-	document.getElementById("newOutput").value = "";
+	let msg_arr = text.split('');
+	document.getElementById('newOutput').value = '';
 
 	//console.log(text);
 	//console.log(msg_arr);
@@ -17,16 +17,15 @@ function getText(msg_arr) {
 	//console.log(mode);
 	//console.log('Crypt');
 	msg_arr = crypt(msg_arr, mode);
-	full_output = preparePrintText(msg_arr, "Crypt:");
+	full_output = preparePrintText(msg_arr, 'Crypt:');
 	console.log(msg_arr);
 	//bruteForce(msg_arr);
 	//console.log('Encrypt');
 	msg_arr = encrypt(msg_arr, mode);
-	full_output += preparePrintText(msg_arr, "\nEncrypt:");
+	full_output += preparePrintText(msg_arr, '\nEncrypt:');
 	printText(full_output);
 	console.log(msg_arr);
 	//printText(msg_arr, mode);
-	return msg_arr;
 }
 
 function preparePrintText(msg_arr = [], mode = '') {
@@ -49,9 +48,11 @@ function preparePrintText(msg_arr = [], mode = '') {
 		.getElementById('output')
 		.insertAdjacentHTML('beforeend', `<br><br>`);*/
 }
-function printText(fullText = "") {
+
+function printText(fullText = '') {
 	document.getElementById('newOutput').value = fullText;
 }
+
 function translateTextEn(character) {
 	let i = 0;
 	while (character !== abc_en[i]) {
@@ -103,8 +104,13 @@ function crypt(msg_arr = [], mode) {
 	return msg_arr;
 }
 
-function encrypt(msg_arr = [], mode) {
-	const k = parseInt(document.getElementById('k-cry').value);
+function encrypt(msg_arr = [], mode, i) {
+	let k;
+	if (i === undefined) {
+		k = parseInt(document.getElementById('k-cry').value);
+	} else {
+		k = i;
+	}
 	let n, x, y;
 	if (mode === 'english') {
 		msg_arr.forEach((item, i) => {
@@ -129,8 +135,12 @@ function encrypt(msg_arr = [], mode) {
 	return msg_arr;
 }
 
-function bruteForce(msg_arr) {
+function bruteForce() {
 	let k = document.getElementById('k-num').value;
+	let text = document.getElementById('encrypted_text').value;
+	let msg_arr = text.split('');
+	let full_text = '';
+	let num_k = '';
 	console.log(k);
 	console.log(msg_arr);
 	let mode = document.getElementById('eng');
@@ -139,16 +149,16 @@ function bruteForce(msg_arr) {
 	} else {
 		mode = 'ukrainian';
 	}
-	let i = -k;
-	while (Math.abs(i) <= k) {
-		if (i === 0) {
-			i++;
-			continue;
-		}
-		encrypt(msg_arr, mode, i);
-		//printText(msg_arr);
+	let i = 1;
+	while (i <= k) {
+		msg_arr = encrypt(msg_arr, mode, 1);
+		num_k = 'k = ' + i;
+		full_text += num_k + '\t';
+		msg_arr.forEach((item) => full_text += item);
+		full_text += '\n';
 		i++;
 	}
+	printText(full_text);
 }
 
 /*function saveStaticDataToFile() {
@@ -168,12 +178,11 @@ document.getElementById('input_file')
 	})*/
 let abc_en = [' ', '!', '"', '#', '$', '%', '&', '`', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4',
 	'5', '6', '7', '8', '9', '0', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-	'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', "'",
+	'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '\'',
 	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
 	'x', 'y', 'z', '{', '|', '}', '~'];
 let abc_ua = [' ', '!', '"', '#', '$', '%', '&', '`', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4',
 	'5', '6', '7', '8', '9', '0', ':', ';', '<', '=', '>', '?', '@', 'А', 'Б', 'В', 'Г', 'Ґ', 'Д', 'Е', 'Є', 'Ж',
 	'З', 'И', 'І', 'Й', 'Ї', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь',
-	'Ю', 'Я', '[', '\\', ']', '^', '_', "'", 'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'й', 'к',
+	'Ю', 'Я', '[', '\\', ']', '^', '_', '\'', 'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'й', 'к',
 	'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я', '{', '|', '}', '~'];
-let msg_arr = [];
