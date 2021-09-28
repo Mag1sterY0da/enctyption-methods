@@ -1,101 +1,221 @@
-function prepare_date_and_decrypt() {
-
+function prepare_date_and_decrypt_tritemius() {
 	let text = document.getElementById('text_for_decrypt').value;
-	let full_output, k;
-	let msg_arr = text.split('');
+	let full_output;
 	let path = 'output_decrypt';
+	let msg_arr = text.split('');
 	let abc_custom = document.getElementById('abc_decrypt').value;
 	document.getElementById('output_decrypt').value = '';
+	//let k = parseInt(document.getElementById('k_shift_crypt').value);
 
-	//console.log(text);
-	//console.log(msg_arr);
-
-	let mode = document.getElementById('know_shift');
-	let lang = document.getElementById('eng-decrypt');
+	let lang = document.getElementById('eng_decrypt');
 	if (lang.checked) {
 		lang = 'english';
-		if (abc_custom !== ''){
+		if (abc_custom !== '') {
 			abc_en = abc_custom;
 		}
 	} else {
 		lang = 'ukrainian';
-		if (abc_custom !== ''){
+		if (abc_custom !== '') {
 			abc_ua = abc_custom;
 		}
 	}
-	if (mode.checked) {
-		k = parseInt(document.getElementById('k_shift_decrypt').value);
-		msg_arr = decrypt(msg_arr, lang, k);
-		full_output = preparePrintText(msg_arr, '');
-		printText(full_output, path);
+	let method = document.getElementById('linear_equation_decrypt');
+	if (method.checked) {
+		method = 'linear_equation';
 	} else {
-		k = parseInt(document.getElementById('k_brute').value);
-		bruteForce(msg_arr, lang, k, path);
+		method = document.getElementById('nonlinear_equation_decrypt');
+		if (method.checked) {
+			method = 'nonlinear_equation';
+		} else {
+			method = 'p_word_encrypt';
+		}
 	}
-
-	/*//console.log(mode);
-	//console.log('Crypt');
-	msg_arr = crypt(msg_arr, mode);
-	full_output = preparePrintText(msg_arr, 'Crypt:');
-	console.log(msg_arr);
-	//bruteForce(msg_arr);
-	//console.log('Encrypt');
-	msg_arr = encrypt(msg_arr, mode);
-	full_output += preparePrintText(msg_arr, '\nEncrypt:');
-	console.log(msg_arr);*/
-	//printText(msg_arr, mode);
+	msg_arr = decrypt(msg_arr, lang, method);
+	full_output = preparePrintText(msg_arr, '');
+	printText(full_output, path);
 }
 
-function prepare_date_and_encrypt() {
-	let text = document.getElementById('text_for_crypt').value;
+function prepare_date_and_encrypt_tritemius() {
+	let text = document.getElementById('text_for_encrypt').value;
 	let full_output;
 	let path = 'output_encrypt';
 	let msg_arr = text.split('');
-	let abc_custom = document.getElementById('abc_decrypt').value;
+	let abc_custom = document.getElementById('abc_encrypt').value;
 	document.getElementById('output_encrypt').value = '';
 	//let k = parseInt(document.getElementById('k_shift_crypt').value);
 
 	let lang = document.getElementById('eng_encrypt');
 	if (lang.checked) {
 		lang = 'english';
-		if (abc_custom !== ''){
+		if (abc_custom !== '') {
 			abc_en = abc_custom;
 		}
 	} else {
 		lang = 'ukrainian';
-		if (abc_custom !== ''){
+		if (abc_custom !== '') {
 			abc_ua = abc_custom;
 		}
 	}
-	msg_arr = crypt(msg_arr, lang);
+	let method = document.getElementById('linear_equation_encrypt');
+	if (method.checked) {
+		method = 'linear_equation';
+	} else {
+		method = document.getElementById('nonlinear_equation_encrypt');
+		if (method.checked) {
+			method = 'nonlinear_equation';
+		} else {
+			method = 'p_word_encrypt';
+		}
+	}
+	msg_arr = encrypt(msg_arr, lang, method);
 	full_output = preparePrintText(msg_arr, '');
 	printText(full_output, path);
 }
 
-function decrypt(msg_arr = [], mode = "english", i) {
+function decrypt(msg_arr = [], lang, method) {
+	let a = parseInt(document.getElementById('a_num_decrypt').value);
+	let b = parseInt(document.getElementById('b_num_decrypt').value);
+	let c = parseInt(document.getElementById('c_num_decrypt').value);
+	let p = document.getElementById('word_decrypt').value;
+	let p_word = p.split('');
+	let j = 0;
 	let n, x, y, k;
-	if (i === undefined) {
-		k = parseInt(document.getElementById('k_shift_crypt').value);
+	if (lang === 'english') {
+		n = abc_en.length;
+		if (method === 'linear_equation') {
+			msg_arr.forEach((item, i) => {
+					y = translateTextEn(msg_arr[i]);
+					k = a * i + b;
+					x = (y + n - (k % n)) % n;
+					msg_arr[i] = translateTextEnBack(x);
+				}
+			);
+		} else if (method === 'nonlinear_equation') {
+			msg_arr.forEach((item, i) => {
+					y = translateTextEn(msg_arr[i]);
+					k = a ** 2 + b * i + c;
+					x = (y + n - (k % n)) % n;
+					msg_arr[i] = translateTextEnBack(x);
+				}
+			);
+		} else {
+			msg_arr.forEach((item, i) => {
+					if (j % p_word.length === 0) {
+						j = 0;
+					}
+					x = translateTextEn(msg_arr[i]) - translateTextEn(p_word[i]);
+					while (x < 0) {
+						x += n;
+					}
+					msg_arr[i] = translateTextEnBack(x);
+					j++;
+				}
+			);
+		}
 	} else {
-		k = i;
+		n = abc_ua.length;
+		if (method === 'linear_equation') {
+			msg_arr.forEach((item, i) => {
+					y = translateTextUa(msg_arr[i]);
+					k = a * i + b;
+					x = (y + n - (k % n)) % n;
+					msg_arr[i] = translateTextUaBack(x);
+				}
+			);
+		} else if (method === 'nonlinear_equation') {
+			msg_arr.forEach((item, i) => {
+					y = translateTextUa(msg_arr[i]);
+					k = a ** 2 + b * i + c;
+					x = (y + n - (k % n)) % n;
+					msg_arr[i] = translateTextUaBack(x);
+				}
+			);
+		} else {
+			msg_arr.forEach((item, i) => {
+					if (j % p_word.length === 0) {
+						j = 0;
+					}
+					x = translateTextUa(msg_arr[i]) - translateTextUa(p_word[i]);
+					while (x < 0) {
+						x += n;
+					}
+					msg_arr[i] = translateTextUaBack(x);
+					j++;
+				}
+			);
+		}
 	}
-	if (mode === 'english') {
-		msg_arr.forEach((item, i) => {
-				n = abc_en.length;
-				y = translateTextEn(msg_arr[i]);
-				x = (y + n - (k % n)) % n;
-				msg_arr[i] = translateTextEnBack(x);
-			}
-		);
+	//console.log(msg_arr);
+
+	return msg_arr;
+}
+
+function encrypt(msg_arr = [], lang, method) {
+	let a = parseInt(document.getElementById('a_num_encrypt').value);
+	let b = parseInt(document.getElementById('b_num_encrypt').value);
+	let c = parseInt(document.getElementById('c_num_encrypt').value);
+	let p = document.getElementById('word_encrypt').value;
+	let p_word = p.split('');
+	let j = 0;
+	let n, x, y, k;
+	if (lang === 'english') {
+		n = abc_en.length;
+		if (method === 'linear_equation') {
+			msg_arr.forEach((item, i) => {
+					x = translateTextEn(msg_arr[i]);
+					k = a * i + b;
+					y = (x + k) % n;
+					msg_arr[i] = translateTextEnBack(y);
+				}
+			);
+		} else if (method === 'nonlinear_equation') {
+			msg_arr.forEach((item, i) => {
+					x = translateTextEn(msg_arr[i]);
+					k = a ** 2 + b * i + c;
+					y = (x + k) % n;
+					msg_arr[i] = translateTextEnBack(y);
+				}
+			);
+		} else {
+			msg_arr.forEach((item, i) => {
+					if (j % p_word.length === 0) {
+						j = 0;
+					}
+					y = (translateTextEn(p_word[j]) + translateTextEn(msg_arr[i])) % n;
+					msg_arr[i] = translateTextEnBack(y);
+					j++;
+				}
+			);
+		}
 	} else {
-		msg_arr.forEach((item, i) => {
-				n = abc_ua.length;
-				y = translateTextUa(msg_arr[i]);
-				x = (y + n - (k % n)) % n;
-				msg_arr[i] = translateTextUaBack(x);
-			}
-		);
-		//console.log(msg_arr);
+		n = abc_ua.length;
+		if (method === 'linear_equation') {
+			msg_arr.forEach((item, i) => {
+					x = translateTextUa(msg_arr[i]);
+					k = a * i + b;
+					y = (x + k) % n;
+					msg_arr[i] = translateTextUaBack(y);
+				}
+			);
+		} else if (method === 'nonlinear_equation') {
+			msg_arr.forEach((item, i) => {
+					x = translateTextUa(msg_arr[i]);
+					k = a ** 2 + b * i + c;
+					y = (x + k) % n;
+					msg_arr[i] = translateTextUaBack(y);
+				}
+			);
+		} else {
+			msg_arr.forEach((item, i) => {
+					if (j % p_word.length === 0) {
+						j = 0;
+					}
+					y = (translateTextUa(p_word[j]) + translateTextUa(msg_arr[i])) % n;
+					msg_arr[i] = translateTextUaBack(y);
+					j++;
+				}
+			);
+		}
 	}
 	//console.log(msg_arr);
 
@@ -151,31 +271,6 @@ function translateTextUa(character) {
 
 function translateTextUaBack(i) {
 	return abc_ua[i];
-}
-
-function crypt(msg_arr = [], mode) {
-	const k = parseInt(document.getElementById('k_shift_crypt').value);
-	let n, x, y;
-	if (mode === 'english') {
-		msg_arr.forEach((item, i) => {
-				n = abc_en.length;
-				x = translateTextEn(msg_arr[i]);
-				y = (x + k) % n;
-				msg_arr[i] = translateTextEnBack(y);
-			}
-		);
-	} else {
-		msg_arr.forEach((item, i) => {
-				n = abc_ua.length;
-				x = translateTextUa(msg_arr[i]);
-				y = (x + k) % n;
-				msg_arr[i] = translateTextUaBack(y);
-			}
-		);
-	}
-	//console.log(msg_arr);
-
-	return msg_arr;
 }
 
 function bruteForce(msg_arr, lang, k, path) {

@@ -12,7 +12,6 @@
 	<title>Cipher of Caesar</title>
 </head>
 <body>
-<!--TODO New branch-->
 <!--TODO 2 lab-->
 <!--TODO New branch-->
 <!--TODO 3 lab-->
@@ -20,38 +19,55 @@
 <!--TODO Welcome page-->
 <!--TODO Menu top + design-->
 <!--TODO Merge 3 labs-->
+<!--TODO Record/Read File-->
+<!--TODO Create different scripts for each method-->
 <!--TODO Comments-->
 <!--TODO Tests for breaks-->
+<!--TODO Release + description-->
 <div class="func">
-	<h1>Causer Cipher Decoder</h1>
+	<h1>Tritemius Cipher Decoder</h1>
 
 	<label for="text_for_decrypt">Enter text:</label><br><br>
-	<textarea id="text_for_decrypt" placeholder="Text for decryption..." rows="3" cols="40">def</textarea><br><br>
+	<textarea id="text_for_decrypt" placeholder="Text for decryption..." rows="3" cols="40">DFH</textarea><br><br>
+
+	<label for="a_num_decrypt">
+		A number:
+		<input type="number" id="a_num_decrypt" value="1">
+	</label><br>
+	<label for="b_num_decrypt">
+		B number:
+		<input type="number" id="b_num_decrypt" value="1">
+	</label><br>
+	<label for="c_num_decrypt">
+		C number:
+		<input type="number" id="c_num_decrypt" value="1">
+	</label><br>
+	<label for="p_word_encrypt">
+		P word:
+		<input type="text" id="word_decrypt" value="cry">
+	</label><br>
 
 	<!--<input id="encrypted_text" type="text" value="abc"><br><br>-->
-	<label>
-		<input type="radio" name="method" id="know_shift" value="know_shift" checked>
-		I know the shift:
-	</label>
-	<label for="k_shift_decrypt"></label><input id="k_shift_decrypt" type="number" value="3"><br>
-	<label>
-		<input type="radio" name="method" id="brute_force" value="brute_force">
-		Use Brute Force Method:
-	</label>
-	<label for="k_brute"></label><input id="k_brute" type="number" value="3">
+	<p>Enter decrypt method:</p>
+	<input type="radio" name="method" id="linear_equation_decrypt" value="lin_eqt" checked>
+	<label for="linear_equation_decrypt">Linear equation A*p + B</label><br>
+	<input type="radio" name="method" id="nonlinear_equation_decrypt" value="nlin-eqt">
+	<label for="nonlinear_equation_decrypt">Nonlinear equation A^2 + B*p + C</label><br>
+	<input type="radio" name="method" id="p_word_decrypt" value="p_wrd">
+	<label for="p_word_decrypt">P word</label>
 
 	<p>Enter decrypt language:</p>
-	<input type="radio" name="lang_decrypt" id="eng-decrypt" value="eng-decr" checked>
-	<label for="eng-decrypt">English text</label>
-	<input type="radio" name="lang_decrypt" id="ua-decrypt" value="ua-decr">
-	<label for="ua-decrypt">Ukrainian text</label>
+	<input type="radio" name="lang_decrypt" id="eng_decrypt" value="eng-decr" checked>
+	<label for="eng_decrypt">English text</label>
+	<input type="radio" name="lang_decrypt" id="ua_decrypt" value="ua-decr">
+	<label for="ua_decrypt">Ukrainian text</label>
 	<br><br>
 	<label for="abc_decrypt">Custom ABC<br><br><input type="text" id="abc_decrypt"></label><br><br>
 
 	<!--<button onclick="bruteForce()">Decrypt Caesar Code</button><br>-->
 
 
-	<button onclick="prepare_date_and_decrypt()">Decrypt Caesar Code</button>
+	<button onclick="prepare_date_and_decrypt_tritemius()">Decrypt Tritemius Code</button>
 
 
 	<!--<input type="file" name="input_file"
@@ -66,21 +82,44 @@
 	<textarea id="output_decrypt" rows="5" cols="50" placeholder="Decrypted text will appear here..."></textarea>
 </div>
 <div class="func">
-	<h1>Causer Encoder</h1>
+	<h1>Tritemius Cipher Encoder</h1>
 
-	<label for="text_for_crypt">Enter text:</label><br><br>
-	<textarea id="text_for_crypt" placeholder="Text for encryption..." rows="3" cols="40">abc</textarea><br><br>
-	<label for="k_shift_crypt">Enter the shift: </label><input id="k_shift_crypt" type="number" value="3"><br>
+	<label for="text_for_encrypt">Enter text:</label><br><br>
+	<textarea id="text_for_encrypt" placeholder="Text for encryption..." rows="3" cols="40">abc</textarea><br><br>
+	<label for="a_num_encrypt">
+		A number:
+		<input type="number" id="a_num_encrypt" value="1">
+	</label><br>
+	<label for="b_num_encrypt">
+		B number:
+		<input type="number" id="b_num_encrypt" value="1">
+	</label><br>
+	<label for="c_num_encrypt">
+		C number:
+		<input type="number" id="c_num_encrypt" value = "1">
+	</label><br>
+	<label for="p_word_encrypt">
+		P word:
+		<input type="text" id="word_encrypt" value="cry">
+	</label><br>
+
+	<p>Enter decrypt method:</p>
+	<input type="radio" name="method_encrypt" id="linear_equation_encrypt" value="lin_eqt" checked>
+	<label for="linear_equation_encrypt">Linear equation A*p + B</label><br>
+	<input type="radio" name="method_encrypt" id="nonlinear_equation_encrypt" value="nlin-eqt">
+	<label for="nonlinear_equation_encrypt">Nonlinear equation A^2 + B*p + C</label><br>
+	<input type="radio" name="method_encrypt" id="p_word_encrypt" value="p_wrd">
+	<label for="p_word_encrypt">P word</label>
 
 	<p>Enter encrypt language:</p>
-	<input type="radio" name="lang" id="eng_encrypt" value="eng" checked>
+	<input type="radio" name="lang_encrypt" id="eng_encrypt" value="eng" checked>
 	<label for="eng_encrypt">English text</label>
-	<input type="radio" name="lang" id="ua_encrypt" value="ua">
+	<input type="radio" name="lang_encrypt" id="ua_encrypt" value="ua">
 	<label for="ua_encrypt">Ukrainian text</label><br><br>
 
 	<label for="abc_encrypt">Custom ABC<br><br><input type="text" id="abc_encrypt"></label><br><br>
 
-	<button onclick="prepare_date_and_encrypt()">Encrypt Caesar Code</button>
+	<button onclick="prepare_date_and_encrypt_tritemius()">Encrypt Tritemius Code</button>
 
 	<p>Encrypted text:</p>
 	<label for="output_encrypt"></label>
