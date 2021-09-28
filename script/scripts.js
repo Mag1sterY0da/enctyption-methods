@@ -1,20 +1,39 @@
-function getText() {
-	let text = document.getElementById('encrypted_text').value;
-	let full_output;
+function prepare_date_and_decrypt() {
+
+	let text = document.getElementById('text_for_decrypt').value;
+	let full_output, k;
 	let msg_arr = text.split('');
-	document.getElementById('newOutput').value = '';
+	let path = 'output_decrypt';
+	let abc_custom = document.getElementById('abc_decrypt').value;
+	document.getElementById('output_decrypt').value = '';
 
 	//console.log(text);
 	//console.log(msg_arr);
 
-	let mode = document.getElementById('eng');
-	if (mode.checked) {
-		mode = 'english';
+	let mode = document.getElementById('know_shift');
+	let lang = document.getElementById('eng-decrypt');
+	if (lang.checked) {
+		lang = 'english';
+		if (abc_custom !== ''){
+			abc_en = abc_custom;
+		}
 	} else {
-		mode = 'ukrainian';
+		lang = 'ukrainian';
+		if (abc_custom !== ''){
+			abc_ua = abc_custom;
+		}
+	}
+	if (mode.checked) {
+		k = parseInt(document.getElementById('k_shift_decrypt').value);
+		msg_arr = decrypt(msg_arr, lang, k);
+		full_output = preparePrintText(msg_arr, '');
+		printText(full_output, path);
+	} else {
+		k = parseInt(document.getElementById('k_brute').value);
+		bruteForce(msg_arr, lang, k, path);
 	}
 
-	//console.log(mode);
+	/*//console.log(mode);
 	//console.log('Crypt');
 	msg_arr = crypt(msg_arr, mode);
 	full_output = preparePrintText(msg_arr, 'Crypt:');
@@ -23,9 +42,64 @@ function getText() {
 	//console.log('Encrypt');
 	msg_arr = encrypt(msg_arr, mode);
 	full_output += preparePrintText(msg_arr, '\nEncrypt:');
-	printText(full_output);
-	console.log(msg_arr);
+	console.log(msg_arr);*/
 	//printText(msg_arr, mode);
+}
+
+function prepare_date_and_encrypt() {
+	let text = document.getElementById('text_for_crypt').value;
+	let full_output;
+	let path = 'output_encrypt';
+	let msg_arr = text.split('');
+	let abc_custom = document.getElementById('abc_decrypt').value;
+	document.getElementById('output_encrypt').value = '';
+	//let k = parseInt(document.getElementById('k_shift_crypt').value);
+
+	let lang = document.getElementById('eng_encrypt');
+	if (lang.checked) {
+		lang = 'english';
+		if (abc_custom !== ''){
+			abc_en = abc_custom;
+		}
+	} else {
+		lang = 'ukrainian';
+		if (abc_custom !== ''){
+			abc_ua = abc_custom;
+		}
+	}
+	msg_arr = crypt(msg_arr, lang);
+	full_output = preparePrintText(msg_arr, '');
+	printText(full_output, path);
+}
+
+function decrypt(msg_arr = [], mode = "english", i) {
+	let n, x, y, k;
+	if (i === undefined) {
+		k = parseInt(document.getElementById('k_shift_crypt').value);
+	} else {
+		k = i;
+	}
+	if (mode === 'english') {
+		msg_arr.forEach((item, i) => {
+				n = abc_en.length;
+				y = translateTextEn(msg_arr[i]);
+				x = (y + n - (k % n)) % n;
+				msg_arr[i] = translateTextEnBack(x);
+			}
+		);
+	} else {
+		msg_arr.forEach((item, i) => {
+				n = abc_ua.length;
+				y = translateTextUa(msg_arr[i]);
+				x = (y + n - (k % n)) % n;
+				msg_arr[i] = translateTextUaBack(x);
+			}
+		);
+		//console.log(msg_arr);
+	}
+	//console.log(msg_arr);
+
+	return msg_arr;
 }
 
 function preparePrintText(msg_arr = [], mode = '') {
@@ -33,7 +107,7 @@ function preparePrintText(msg_arr = [], mode = '') {
 	//document.getElementById("output").innerHTML = mode;
 	//mode = "New String";
 	//document.getElementById("newOutput").value = "";
-	let fulltext = mode + '\n';
+	let fulltext = mode + '';
 	msg_arr.forEach((item) => fulltext += item);
 	return fulltext;
 	//document.getElementById('newOutput').value = fulltext;
@@ -49,8 +123,8 @@ function preparePrintText(msg_arr = [], mode = '') {
 		.insertAdjacentHTML('beforeend', `<br><br>`);*/
 }
 
-function printText(fullText = '') {
-	document.getElementById('newOutput').value = fullText;
+function printText(fullText = '', path) {
+	document.getElementById(path).value = fullText;
 }
 
 function translateTextEn(character) {
@@ -80,7 +154,7 @@ function translateTextUaBack(i) {
 }
 
 function crypt(msg_arr = [], mode) {
-	const k = parseInt(document.getElementById('k-cry').value);
+	const k = parseInt(document.getElementById('k_shift_crypt').value);
 	let n, x, y;
 	if (mode === 'english') {
 		msg_arr.forEach((item, i) => {
@@ -104,61 +178,22 @@ function crypt(msg_arr = [], mode) {
 	return msg_arr;
 }
 
-function encrypt(msg_arr = [], mode, i) {
-	let k;
-	if (i === undefined) {
-		k = parseInt(document.getElementById('k-cry').value);
-	} else {
-		k = i;
-	}
-	let n, x, y;
-	if (mode === 'english') {
-		msg_arr.forEach((item, i) => {
-				n = abc_en.length;
-				y = translateTextEn(msg_arr[i]);
-				x = (y + n - (k % n)) % n;
-				msg_arr[i] = translateTextEnBack(x);
-			}
-		);
-	} else {
-		msg_arr.forEach((item, i) => {
-				n = abc_ua.length;
-				y = translateTextUa(msg_arr[i]);
-				x = (y + n - (k % n)) % n;
-				msg_arr[i] = translateTextUaBack(x);
-			}
-		);
-		//console.log(msg_arr);
-	}
-	//console.log(msg_arr);
-
-	return msg_arr;
-}
-
-function bruteForce() {
-	let k = document.getElementById('k-num').value;
-	let text = document.getElementById('encrypted_text').value;
-	let msg_arr = text.split('');
+function bruteForce(msg_arr, lang, k, path) {
+	//let text = document.getElementById('encrypted_text').value;
 	let full_text = '';
 	let num_k = '';
 	console.log(k);
 	console.log(msg_arr);
-	let mode = document.getElementById('eng');
-	if (mode.checked) {
-		mode = 'english';
-	} else {
-		mode = 'ukrainian';
-	}
 	let i = 1;
 	while (i <= k) {
-		msg_arr = encrypt(msg_arr, mode, 1);
+		msg_arr = decrypt(msg_arr, lang, 1);
 		num_k = 'k = ' + i;
 		full_text += num_k + '\t';
 		msg_arr.forEach((item) => full_text += item);
 		full_text += '\n';
 		i++;
 	}
-	printText(full_text);
+	printText(full_text, path);
 }
 
 /*function saveStaticDataToFile() {

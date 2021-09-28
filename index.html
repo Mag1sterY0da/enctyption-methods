@@ -12,36 +12,46 @@
 	<title>Cipher of Caesar</title>
 </head>
 <body>
-	<!--TODO Crypt/Encrypt mode-->
-	<!--TODO Same output area, but more beautiful-->
-	<!--TODO New branch-->
-	<!--TODO 2 lab-->
-	<!--TODO New branch-->
-	<!--TODO 3 lab-->
-	<!--TODO Main branch-->
-	<!--TODO Welcome page-->
-	<!--TODO Menu top + design-->
-	<!--TODO Merge 3 labs-->
-	<!--TODO Comments-->
-	<!--TODO Tests for breaks-->
-	<label for="encrypted_text">Enter text:</label><br><br>
-	<input id="encrypted_text" type="text" value="abc"><br><br>
-	<label for="k-cry">Enter k to crypt:</label><br><br>
-	<input id="k-cry" type="number" value="3"><br>
+<!--TODO New branch-->
+<!--TODO 2 lab-->
+<!--TODO New branch-->
+<!--TODO 3 lab-->
+<!--TODO Main branch-->
+<!--TODO Welcome page-->
+<!--TODO Menu top + design-->
+<!--TODO Merge 3 labs-->
+<!--TODO Comments-->
+<!--TODO Tests for breaks-->
+<div class="func">
+	<h1>Causer Cipher Decoder</h1>
 
-	<p>Enter encrypt language:</p>
-	<input type="radio" name="lang" id="eng" value="eng" checked>
-	<label for="eng">English text</label>
-	<input type="radio" name="lang" id="ua" value="ua">
-	<label for="ua">Ukrainian text</label>
+	<label for="text_for_decrypt">Enter text:</label><br><br>
+	<textarea id="text_for_decrypt" placeholder="Text for decryption..." rows="3" cols="40">def</textarea><br><br>
+
+	<!--<input id="encrypted_text" type="text" value="abc"><br><br>-->
+	<label>
+		<input type="radio" name="method" id="know_shift" value="know_shift" checked>
+		I know the shift:
+	</label>
+	<label for="k_shift_decrypt"></label><input id="k_shift_decrypt" type="number" value="3"><br>
+	<label>
+		<input type="radio" name="method" id="brute_force" value="brute_force">
+		Use Brute Force Method:
+	</label>
+	<label for="k_brute"></label><input id="k_brute" type="number" value="3">
+
+	<p>Enter decrypt language:</p>
+	<input type="radio" name="lang_decrypt" id="eng-decrypt" value="eng-decr" checked>
+	<label for="eng-decrypt">English text</label>
+	<input type="radio" name="lang_decrypt" id="ua-decrypt" value="ua-decr">
+	<label for="ua-decrypt">Ukrainian text</label>
 	<br><br>
+	<label for="abc_decrypt">Custom ABC<br><br><input type="text" id="abc_decrypt"></label><br><br>
 
-	<button onclick="getText()">Submit</button>
-	<br><br>
+	<!--<button onclick="bruteForce()">Decrypt Caesar Code</button><br>-->
 
-	<label for="k-num">Enter k for Brute Force method:</label><br><br>
-	<input id="k-num" type="text" value="1">
-	<button onclick="bruteForce()">Submit</button>
+
+	<button onclick="prepare_date_and_decrypt()">Decrypt Caesar Code</button>
 
 
 	<!--<input type="file" name="input_file"
@@ -49,9 +59,32 @@
 	<br><br>
 
 	<button type="button" onclick="saveStaticDataToFile();">Click to Save</button>-->
-	<p id="output"></p>
+	<!--<p id="output"></p>-->
 
-	<label for="newOutput"></label>
-	<textarea id="newOutput" rows="10" cols="50" placeholder="Output will appear here..."></textarea>
+	<p>Decrypted text:</p>
+	<label for="output_decrypt"></label>
+	<textarea id="output_decrypt" rows="3" cols="50" placeholder="Decrypted text will appear here..."></textarea>
+</div>
+<div class="func">
+	<h1>Causer Encoder</h1>
+
+	<label for="text_for_crypt">Enter text:</label><br><br>
+	<textarea id="text_for_crypt" placeholder="Text for encryption..." rows="3" cols="40">abc</textarea><br><br>
+	<label for="k_shift_crypt">Enter the shift: </label><input id="k_shift_crypt" type="number" value="3"><br>
+
+	<p>Enter encrypt language:</p>
+	<input type="radio" name="lang" id="eng_encrypt" value="eng" checked>
+	<label for="eng_encrypt">English text</label>
+	<input type="radio" name="lang" id="ua_encrypt" value="ua">
+	<label for="ua_encrypt">Ukrainian text</label><br><br>
+
+	<label for="abc_encrypt">Custom ABC<br><br><input type="text" id="abc_encrypt"></label><br><br>
+
+	<button onclick="prepare_date_and_encrypt()">Encrypt Caesar Code</button>
+
+	<p>Encrypted text:</p>
+	<label for="output_encrypt"></label>
+	<textarea id="output_encrypt" rows="3" cols="50" placeholder="Encrypted text will appear here..."></textarea>
+</div>
 </body>
 </html>
