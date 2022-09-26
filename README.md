@@ -1,5 +1,5 @@
 # enctyption-methods-on-js
-## Attention: Cringe-code
+### Attention: Cringe-code
 This repo is used to create some encryption methods using JavaScript such as:
 
 * Caesar cipher
