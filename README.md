@@ -1,4 +1,9 @@
 # enctyption-methods-on-js
-This repo is used to create some encryption methods on JavaScript. Created with using HTML, CSS, JS and IDE Webstorm. 
+## Attention: Cringe-code
+This repo is used to create some encryption methods using JavaScript such as:
 
-Updated description will be later.
+* Caesar cipher
+* ElGamal
+* Trithemius cipher
+
+Please, use it only for reference or checking my old code style :)
