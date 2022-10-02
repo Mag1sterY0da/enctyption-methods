@@ -1,4 +1,4 @@
-# enctyption-methods-on-js
+# enctyption-methods
 ### Attention: Cringe-code
 This repo is used to create some encryption methods using JavaScript such as:
 
