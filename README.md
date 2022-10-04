@@ -6,6 +6,12 @@ This repo is used to create some encryption methods using JavaScript such as:
 * ElGamal
 * Trithemius cipher
 
+## Built with
+
+[![HTML][html]][html-url]
+[![CSS][css]][css-url]
+[![JS][js]][js-url]
+
 ## Demo
 
 The site hosted on Netlify
@@ -22,3 +28,11 @@ $ gh repo clone Mag1sterY0da/enctyption-methods
 ```
 
 Please, use it only for reference or checking my old code style :)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[html]: https://img.shields.io/badge/html-f16524?style=for-the-badge&logo=html5&logoColor=white
+[html-url]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
+[css]: https://img.shields.io/badge/css-2965f1?style=for-the-badge&logo=css3&logoColor=white
+[css-url]: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
+[js]: https://img.shields.io/badge/js-ffda3e?style=for-the-badge&logo=javascript&logoColor=black
+[js-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
