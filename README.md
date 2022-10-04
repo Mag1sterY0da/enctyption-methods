@@ -6,7 +6,11 @@ This repo is used to create some encryption methods using JavaScript such as:
 * ElGamal
 * Trithemius cipher
 
-[DEMO of the website](https://enctyption-methods-mag.netlify.app/)
+## Demo
+
+The site hosted on Netlify
+
+[Demo](https://enctyption-methods-mag.netlify.app/)
 
 ## Download
 
