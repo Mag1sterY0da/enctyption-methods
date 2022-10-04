@@ -6,7 +6,7 @@ This repo is used to create some encryption methods using JavaScript such as:
 * ElGamal
 * Trithemius cipher
 
-## Built with
+### Built with
 
 [![HTML][html]][html-url]
 [![CSS][css]][css-url]
@@ -28,6 +28,10 @@ $ gh repo clone Mag1sterY0da/enctyption-methods
 ```
 
 Please, use it only for reference or checking my old code style :)
+
+### Check out my new projects
+
+* Other project links will be added later
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [html]: https://img.shields.io/badge/html-f16524?style=for-the-badge&logo=html5&logoColor=white
