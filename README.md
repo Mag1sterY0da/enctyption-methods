@@ -29,6 +29,10 @@ $ gh repo clone Mag1sterY0da/enctyption-methods
 
 Please, use it only for reference or checking my old code style :)
 
+## Contact
+
+Oleksandr - [@Mag1sterY0da](https://twitter.com/Mag1sterY0da) - oborodavchenko@gmail.com
+
 ### Check out my new projects
 
 * Other project links will be added later
